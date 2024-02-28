@@ -10,6 +10,8 @@
                 <i class="bi bi-plus">Create Category</i>
             </a>
         </div>
+
+        <div class="container"></div>
     </div>
 </div>
 @endsection
