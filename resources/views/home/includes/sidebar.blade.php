@@ -4,7 +4,7 @@
 
       <li class="nav-item">
         <a class="nav-link" href="{{ route('home') }}">
-          <i class="bi bi-grid-fill"></i>
+          <i class="bi bi-grid"></i>
           <span>Home</span>
         </a>
       </li>
@@ -17,6 +17,8 @@
           <span>Category</span>
         </a>
       </li>
+      <!-- End Black Page -->
+
     </ul>
 
   </aside>
