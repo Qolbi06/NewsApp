@@ -19,7 +19,7 @@ class CategoryController extends Controller
     {
         $title = 'Category - Index';
         
-        $category = Category::latest()->get();
+        $category = Category::latest()->paginate(5);
         return view('home.category.index', compact(
             'category',
             'title'
@@ -138,6 +138,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        
+        Storage::disk('local')->delete('public/category/' .basename($category->image));
+
+        $category->delete();
+
+        return redirect()->route('category.index');
     }
 }

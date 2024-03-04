@@ -7,12 +7,14 @@
 
         <hr>
 
-        <form action="{{ route('logout') }}" method="post">
-            @csrf
-            <button class="btn btn-danger">
-                Logout
-            </button>
-        </form>
+        <div class="card p-3">
+            <h3 class="text-center">Detail Account</h3>
+            <ul class="list-group">
+                <li class="list-group-item" aria-current="true">Name : <strong>{{ auth()->user()->name }}</strong></li>
+                <li class="list-group-item">E-mail Account = <strong>{{ auth()->user()->email }}</strong></li>
+                <li class="list-group-item">Role Account = <strong>{{ auth()->user()->role }}</strong></li>
+            </ul>
+        </div>
     </div>
 </div>
 @endsection
