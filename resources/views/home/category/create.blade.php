@@ -5,6 +5,18 @@
     <div class="card p-4">
         <h3>Create Category</h3>
 
+        <hr>
+
+        @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
         <form action="{{ route('category.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('POST')
@@ -19,12 +31,12 @@
                 <input type="file" class="form-control" id="inputImage" name="image">
               </div>
 
-             <div class="d-flex justify-content-end">
+            <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary mt-2">
                     <i class="bi bi-save"></i>
                     Create Category
                   </button>
-             </div>
+            </div>
         </form>
     </div>
 </div>
