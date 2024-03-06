@@ -22,7 +22,7 @@
 
       <li class="nav-item">
         <a class="nav-link mt-3" href="{{ route('news.index') }}">
-          <i class="bi bi-basket2"></i>
+          <i class="ri-archive-fill"></i>
           <span>News</span>
         </a>
       </li>
