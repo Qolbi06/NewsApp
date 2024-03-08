@@ -85,7 +85,18 @@ class NewsController extends Controller
      */
     public function show($id)
     {
-        //
+        $title = 'News - Show';
+
+        //get data by id using model news
+        //fungsi dari findOrFail adalah
+        //jika data tidak ditemukan maka akan
+        //menampilkan error 404
+        $news = News::findOrFail($id);
+        
+        return view('home.news.show', compact(
+            'title',
+            'news'
+        ));
     }
 
     /**
@@ -96,7 +107,16 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
-        //
+        //get data by id
+        $news = News::findOrFail($id);
+        $category = Category::all();
+        $title = 'News - Edit';
+
+        return view('home.news.edit', compact(
+            'title',
+            'news',
+            'category'
+        ));
     }
 
     /**
