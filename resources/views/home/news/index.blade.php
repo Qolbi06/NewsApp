@@ -13,6 +13,12 @@
             </a>
         </div>
 
+        @if (session('success'))
+        <div class="alert alert-success mt-3">
+            {{ session('success') }}
+        </div>
+        @endif
+
         <div class="container mt-3">
             <div class="card p-3">
                 <h5 class="card-title">Data News</h5>
@@ -46,9 +52,14 @@
                             <a href="{{ route('news.edit', $row->id) }}" class="btn btn-warning">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <button class="btn btn-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                            <form action="{{ route('news.destroy', $row->id) }}" method="post" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+
+                                <button class="btn btn-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     @empty

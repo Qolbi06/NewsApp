@@ -6,6 +6,18 @@
     <div class="card p-4">
         <h3>News Create</h3>
 
+        <hr>
+
+        @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
         <form action="{{ route('news.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('POST')
@@ -39,6 +51,19 @@
                 <textarea id="editor" name="content"></textarea>
             </div>
 
+
+            <script>
+                ClassicEditor
+                        .create( document.querySelector( '#editor' ) )
+                        .then( editor => {
+                                console.log( editor );
+                        } )
+                        .catch( error => {
+                                console.error( error );
+                        } );
+            </script>
+
+            
            <div class="d-flex justify-content-end">
             <button class=" btn btn-primary" type="submit">
                 <i class="bi bi-plus"></i>

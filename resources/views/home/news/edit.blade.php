@@ -53,12 +53,12 @@
                         } );
             </script>
 
-           <div class="d-flex justify-content-end">
-            <button class=" btn btn-primary" type="submit">
-                <i class="bi bi-plus"></i>
-                Create News
+        <div class="d-flex justify-content-end">
+            <button class=" btn btn-warning" type="submit">
+                <i class="bi bi-pencil-square"></i>
+                Update News
             </button>
-           </div>
+        </div>
         </form>
     </div>
 </div>

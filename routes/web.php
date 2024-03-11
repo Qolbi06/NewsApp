@@ -35,12 +35,13 @@ function(){
 
 Route::middleware('auth')->group(function(){
     Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/profile', [App\Http\Controllers\Profile\ProfileController::class, 'index'])->name('profile.index');
 
     //route for admin
     Route::middleware(['auth', 'admin'])->group(function () {
         //route for news using resource
         Route::resource('news', NewsController::class);
         //route for news using resource
-        Route::resource('category', CategoryController::class)->middleware('auth');
+        Route::resource('category', CategoryController::class)->except('show');
     });
 });
