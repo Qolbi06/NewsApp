@@ -12,6 +12,14 @@
 
 
     @if (Auth::user()->role == 'admin')
+
+    {{-- ALL User --}}
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#">
+        <i class="bi bi-grid"></i>
+        <span>User</span>
+      </a>
+    </li>
       {{-- Category - News --}}
       <li class="nav-item">
         <a class="nav-link mt-3" href="{{ route('category.index') }}">
