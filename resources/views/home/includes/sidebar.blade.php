@@ -15,22 +15,22 @@
 
     {{-- ALL User --}}
     <li class="nav-item">
-      <a class="nav-link collapsed" href="#">
-        <i class="bi bi-grid"></i>
+      <a class="nav-link" href="{{ route('allUser') }}">
+        <i class="bi bi-person-circle"></i>
         <span>User</span>
       </a>
     </li>
       {{-- Category - News --}}
       <li class="nav-item">
         <a class="nav-link mt-3" href="{{ route('category.index') }}">
-          <i class="bi bi-basket2"></i>
+          <i class="bi bi-chat-text-fill"></i>
           <span>Category</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link mt-3" href="{{ route('news.index') }}">
-          <i class="ri-archive-fill"></i>
+          <i class="ri-book-2-line"></i>
           <span>News</span>
         </a>
       </li>

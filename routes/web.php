@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/profile', [App\Http\Controllers\Profile\ProfileController::class, 'index'])->name('profile.index');
     Route::get('/change-password', [\App\Http\Controllers\Profile\ProfileController::class, 'changePassword'])->name('profile.change-password');
     Route::put('/update-password', [App\Http\Controllers\Profile\ProfileController::class, 'updatePassword'])->name('profile.update-password');
+    Route::get('/create-profile', [\App\Http\Controllers\Profile\ProfileController::class, 'createProfile'])->name('createProfile');
+    Route::post('/store-profile', [\App\Http\Controllers\Profile\ProfileController::class, 'storeProfile'])->name('storeProfile');
 
     //route for admin
     Route::middleware(['auth', 'admin'])->group(function () {
@@ -45,5 +47,10 @@ Route::middleware('auth')->group(function(){
         Route::resource('news', NewsController::class);
         //route for news using resource
         Route::resource('category', CategoryController::class)->except('show');
+
+        //get all user
+        Route::get('/all-user',[\App\Http\Controllers\Profile\ProfileController::class, 'allUser'])->name('allUser');
+        //reset password user
+        Route::put('/reset-password/{id}', [\App\Http\Controllers\Profile\ProfileController::class, 'resetPassword'])->name('resetPassword');
     });
 });

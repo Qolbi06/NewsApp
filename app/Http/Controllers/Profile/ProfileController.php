@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Profile;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -53,5 +54,60 @@ class ProfileController extends Controller
         } else {
             return redirect()->back()->with('error', 'Current Password is wrong');
         }
+    }
+
+    public function allUser(){
+        $title = 'All - User';
+
+        $user = User::where('role', 'user')->get();
+
+        return view('home.user.index', compact(
+            'title',
+            'user'
+        ));
+    }
+
+    public function resetPassword($id){
+        //get user by id
+        $user = User::find($id);
+        $user->password = Hash::make('123456');
+        $user->save();
+
+        return redirect()->back()->with(
+            'success',
+            'Password has been reset'
+        );
+    }
+
+    public function createProfile(){
+        $title = 'Create - Profile';
+
+        return view('home.profile.create', compact(
+            'title'
+        ));
+    }
+
+    public function storeProfile(Request $request){
+        $this->validate($request,[
+            'first_name' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        $image = $request->file('image');
+        $image->storeAs('public/profile' , $image->getClientOriginalName());
+
+        //get user login
+        $user = auth()->user();
+
+        //create data profile
+        $user->profile()->create([
+            'first_name' => $request->first_name,
+            'image' => $image->getClientOriginalName()
+        ]);
+
+        return redirect()->route('profile.index')->with(
+            'success',
+            'Profile has been created'
+        );
     }
 }
