@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -100,7 +101,7 @@ class ProfileController extends Controller
         $user = auth()->user();
 
         //create data profile
-        $user->profile()->create([
+        $user->profile->create([
             'first_name' => $request->first_name,
             'image' => $image->getClientOriginalName()
         ]);
@@ -109,5 +110,52 @@ class ProfileController extends Controller
             'success',
             'Profile has been created'
         );
+    }
+
+    public function editProfile(){
+        
+        $title = 'Edit - Profile';
+        //get data user login
+        $user = auth()->user();
+
+        return view('home.profile.edit', compact(
+            'user',
+            'title'
+        ));
+    }
+
+    public function updateProfile(Request $request){
+        $this->validate($request,[
+            'first_name' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        $user = auth()->user();
+
+        if ($request->file('image') == ''){
+            $user->profile->update([
+                'first_name' => $request->first_name
+            ]);
+
+            return redirect()->route('profile.index')->with(
+                'success',
+                'Profile has been updated'
+            );
+        }else{
+            Storage::delete('public/profile/' . basename($user->profile->image));
+
+            $image = $request->file('image');
+            $image->storeAs('public/profile/' , $image->getClientOriginalName());
+
+            $user->profile->update([
+                'first_name' => $request->first_name,
+                'image' => $image->getClientOriginalName()
+            ]);
+
+            return redirect()->route('profile.index')->with(
+                'success',
+                'Profile has been updated'
+            );
+        }
     }
 }
