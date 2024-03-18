@@ -14,12 +14,12 @@ class FrontendController extends Controller
         
         $category = Category::latest()->get();
 
-        $categoryNews = News::with('category')->latest()->get();
+        $sliderNews = News::latest()->limit(3)->get();
         
         return view('frontend.news.index', compact(
             'title',
             'category',
-            'categoryNews'
+            'sliderNews',
         ));
     }
 }
