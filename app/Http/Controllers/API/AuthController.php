@@ -105,4 +105,45 @@ class AuthController extends Controller
         ]
         );
     }
+
+    public function updatePassword(Request $request){
+        try {
+            //validate
+            $this->validate($request, [
+                'old_password' => 'required',
+                'new_password' => 'required|string|min:6',
+                'confirm_password' => 'required|string|min:6'
+            ]);
+            
+            $user = Auth::user();
+
+            //cek password lama
+            if(!Hash::check($request->old_password, $user->password)){
+                return ResponseFormatter::error([
+                    'message' => 'Password lama tidak sesuai',
+                ], 'Authentication Failed', 401);
+            }
+
+            if($request->new_password != $request->confirm_password){
+                return ResponseFormatter::error([
+                    'message' => 'Password lama tidak sesuai',
+                ], 'Authentication Failed', 401);
+            }
+
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            
+        } catch (Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something wnt wrong',
+                'error' => $error
+            ], 'Authentication Failed', 500);
+        }
+    }
+
+    public function allUsers(){
+        $user = User::where('role', 'user')->get();
+        return ResponseFormatter::success(
+            $user, 'Data user berhasil diambil');
+    }
 }

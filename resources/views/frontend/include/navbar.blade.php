@@ -35,8 +35,7 @@
             <!-- End Search Form -->
 
             @guest
-                <a href="{{ route('login') }}" class="mx-2">Login</a>
-                <a href="{{ route('register') }}" class="mx-2">Register</a>
+                {{-- <a href="{{ route('login') }}" class="mx-2">Login</a> --}}
             @else
                 <a href="{{ route('home') }}" class="mx-2">Home</a>
             @endguest
