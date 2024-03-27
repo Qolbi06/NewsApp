@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Helpers\ResponseFormatter;
 use Exception;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Helpers\ResponseFormatter;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -132,6 +133,10 @@ class AuthController extends Controller
 
             $user->password = Hash::make($request->new_password);
             $user->save();
+
+            return ResponseFormatter::success([
+                'message' => 'Password Berhasil Diubah',
+            ], 'Authentication Failed', 200);
             
         } catch (Exception $error) {
             return ResponseFormatter::error([
@@ -145,5 +150,48 @@ class AuthController extends Controller
         $user = User::where('role', 'user')->get();
         return ResponseFormatter::success(
             $user, 'Data user berhasil diambil');
+    }
+
+    public function updateProfile(Request $request){
+        try {
+            //validate
+            $this->validate($request, [
+                'name' => 'required|string|max:255',
+                'first_name' => 'required|string|max:255',
+                'image' => 'image|mimes:png,jpg,jpeg|max:2048'
+            ]);
+
+            //Get data user
+            $user = Auth::user();
+
+            if ($request->file('image') == '') {
+                $user->profile->update([
+                    'name' => $request->name,
+                    'first_name' => $request->first_name
+                ]);
+            } else {
+                Storage::disk('local')->delete('public/profile/' . basename($user->image));
+
+                $image = $request->file('image');
+                $image->storeAs('public/profile', $image->hashName());
+
+                $user->profile->update([
+                    'name' => $request->name,
+                    'first_name' => $request->first_name,
+                    'image' => $image->hashName()
+                ]);
+            }
+
+            return ResponseFormatter::success([
+                'profile' => $user->profile
+            ], 'Profile Updated');
+            
+
+        } catch (\Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'something Went Wrong',
+                'error' => $error
+            ], 'Authentication', 500);
+        }
     }
 }
