@@ -156,7 +156,6 @@ class AuthController extends Controller
         try {
             //validate
             $this->validate($request, [
-                'name' => 'required|string|max:255',
                 'first_name' => 'required|string|max:255',
                 'image' => 'image|mimes:png,jpg,jpeg|max:2048'
             ]);
