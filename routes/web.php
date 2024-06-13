@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\admin\CategoryController;
-use App\Http\Controllers\Admin\NewsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,4 +57,11 @@ Route::middleware('auth')->group(function(){
         //reset password user
         Route::put('/reset-password/{id}', [\App\Http\Controllers\Profile\ProfileController::class, 'resetPassword'])->name('resetPassword');
     });
+});
+
+Route::get('/artisan-call', function(){
+    Artisan::call('storage:link');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    return 'success';
 });
